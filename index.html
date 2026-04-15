@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Propuesta Comercial — Wasapi</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+--bg:#0a0a0a;--surface:#141414;--surface2:#1c1c1c;--border:#2a2a2a;
+--text:#f0ede6;--text2:#a8a49c;--text3:#6b6860;
+--accent:#25D366;--accent2:#128C7E;--accent-soft:rgba(37,211,102,.08);
+--coral:#FF6B4A;--amber:#F5A623;
+--font-body:'DM Sans',sans-serif;--font-display:'Playfair Display',serif;
+}
+html{font-size:16px;scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:var(--font-body);line-height:1.6;-webkit-font-smoothing:antialiased}
+
+.container{max-width:800px;margin:0 auto;padding:0 32px}
+
+/* HERO */
+.hero{padding:80px 0 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-120px;right:-80px;width:400px;height:400px;background:radial-gradient(circle,rgba(37,211,102,.06) 0%,transparent 70%);pointer-events:none}
+.badge{display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft);border:1px solid rgba(37,211,102,.15);border-radius:100px;padding:6px 16px;font-size:.75rem;color:var(--accent);letter-spacing:.05em;text-transform:uppercase;font-weight:600;margin-bottom:24px}
+.badge .dot{width:6px;height:6px;background:var(--accent);border-radius:50%;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.hero h1{font-family:var(--font-display);font-size:2.8rem;font-weight:600;line-height:1.15;margin-bottom:16px;color:var(--text)}
+.hero h1 span{color:var(--accent)}
+.hero .subtitle{font-size:1.1rem;color:var(--text2);max-width:560px;line-height:1.7}
+.meta-row{display:flex;gap:32px;margin-top:32px;padding-top:24px;border-top:1px solid var(--border)}
+.meta-item{display:flex;flex-direction:column;gap:2px}
+.meta-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);font-weight:600}
+.meta-value{font-size:.9rem;color:var(--text2)}
+
+/* DIVIDER */
+.divider{height:1px;background:var(--border);margin:48px 0}
+
+/* SECTION */
+.section{padding:48px 0}
+.section-label{font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);font-weight:600;margin-bottom:12px}
+.section h2{font-family:var(--font-display);font-size:1.8rem;font-weight:500;margin-bottom:8px}
+.section .section-desc{color:var(--text2);font-size:.95rem;margin-bottom:32px;max-width:600px}
+
+/* CONTEXT CARD */
+.context-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px;margin-bottom:32px}
+.context-card h3{font-size:1rem;font-weight:600;margin-bottom:16px;color:var(--text)}
+.context-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.context-item{display:flex;gap:12px;align-items:flex-start}
+.context-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0;font-weight:700}
+.context-icon.green{background:rgba(37,211,102,.1);color:var(--accent)}
+.context-icon.coral{background:rgba(255,107,74,.1);color:var(--coral)}
+.context-item p{font-size:.85rem;color:var(--text2);line-height:1.5}
+.context-item strong{color:var(--text);font-weight:500}
+
+/* DELIVERABLES */
+.deliverable{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:32px;margin-bottom:16px;position:relative;overflow:hidden;transition:border-color .3s}
+.deliverable:hover{border-color:rgba(37,211,102,.25)}
+.deliverable-header{display:flex;align-items:center;gap:16px;margin-bottom:16px}
+.deliverable-number{width:40px;height:40px;border-radius:10px;background:var(--accent-soft);border:1px solid rgba(37,211,102,.15);display:flex;align-items:center;justify-content:center;font-family:var(--font-display);font-size:1.1rem;font-weight:600;color:var(--accent)}
+.deliverable h3{font-size:1.1rem;font-weight:600}
+.deliverable h3 span{display:block;font-size:.8rem;font-weight:400;color:var(--text2);margin-top:2px}
+.deliverable-body{padding-left:56px}
+.deliverable-body p{font-size:.88rem;color:var(--text2);line-height:1.7;margin-bottom:12px}
+.deliverable-items{display:flex;flex-direction:column;gap:8px;margin-top:16px}
+.d-item{display:flex;align-items:flex-start;gap:10px;font-size:.85rem;color:var(--text2)}
+.d-item::before{content:'→';color:var(--accent);font-weight:600;flex-shrink:0;margin-top:1px}
+
+/* FLOW */
+.flow-section{padding:40px 0}
+.flow-steps{display:flex;flex-direction:column;gap:0;position:relative}
+.flow-steps::before{content:'';position:absolute;left:19px;top:24px;bottom:24px;width:1px;background:linear-gradient(to bottom,var(--accent),var(--accent2),var(--border))}
+.flow-step{display:flex;gap:20px;align-items:flex-start;padding:16px 0}
+.flow-dot{width:40px;height:40px;border-radius:50%;border:2px solid var(--accent);background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:var(--accent);flex-shrink:0;position:relative;z-index:1}
+.flow-content h4{font-size:.95rem;font-weight:600;margin-bottom:4px}
+.flow-content p{font-size:.82rem;color:var(--text2);line-height:1.6}
+
+/* INVESTMENT */
+.investment-card{background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);border:1px solid var(--border);border-radius:20px;padding:40px;position:relative;overflow:hidden}
+.investment-card::after{content:'';position:absolute;top:0;right:0;width:200px;height:200px;background:radial-gradient(circle,rgba(37,211,102,.04) 0%,transparent 70%);pointer-events:none}
+.inv-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:24px}
+.inv-item{background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:12px;padding:20px}
+.inv-item .inv-label{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);font-weight:600;margin-bottom:4px}
+.inv-item .inv-value{font-family:var(--font-display);font-size:1.6rem;font-weight:600;color:var(--text)}
+.inv-item .inv-desc{font-size:.78rem;color:var(--text2);margin-top:4px;line-height:1.5}
+.inv-note{margin-top:24px;padding:16px 20px;background:var(--accent-soft);border:1px solid rgba(37,211,102,.12);border-radius:10px;font-size:.82rem;color:var(--text2);line-height:1.6}
+.inv-note strong{color:var(--accent)}
+
+/* WHY */
+.why-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:24px}
+.why-card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:24px;text-align:center}
+.why-card .why-num{font-family:var(--font-display);font-size:2rem;font-weight:700;color:var(--accent);margin-bottom:4px}
+.why-card p{font-size:.8rem;color:var(--text2);line-height:1.5}
+
+/* FOOTER */
+.footer{padding:48px 0 64px;text-align:center}
+.footer p{font-size:.82rem;color:var(--text3)}
+.footer .cta-line{font-family:var(--font-display);font-size:1.3rem;color:var(--text);margin-bottom:8px}
+
+@media(max-width:640px){
+  .hero h1{font-size:2rem}
+  .context-grid{grid-template-columns:1fr}
+  .inv-grid{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .meta-row{flex-direction:column;gap:16px}
+  .container{padding:0 20px}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="badge"><span class="dot"></span> Propuesta comercial</div>
+    <h1>Máquina de adquisición<br>de clientes para <span>Wasapi</span></h1>
+    <p class="subtitle">Contenido estratégico + pauta paga + infraestructura de captación y cierre. Todo integrado para que cada dólar invertido se convierta en demos agendadas y trials activados.</p>
+    <div class="meta-row">
+      <div class="meta-item">
+        <span class="meta-label">Preparado para</span>
+        <span class="meta-value">Equipo Wasapi</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Presentado por</span>
+        <span class="meta-value">[Tu Agencia]</span>
+      </div>
+      <div class="meta-item">
+        <span class="meta-label">Fecha</span>
+        <span class="meta-value">Abril 2026</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTEXTO -->
+  <section class="section">
+    <span class="section-label">Contexto</span>
+    <h2>Lo que entendemos de Wasapi</h2>
+    <p class="section-desc">Antes de proponer, escuchamos. Esto es lo que sabemos de su negocio y dónde vemos la oportunidad.</p>
+
+    <div class="context-card">
+      <h3>Lo que Wasapi ya tiene resuelto</h3>
+      <div class="context-grid">
+        <div class="context-item">
+          <div class="context-icon green">✓</div>
+          <p><strong>Producto sólido</strong> — Plataforma madura con chat inteligente, multi-agente, chatbots IA y embudos de venta.</p>
+        </div>
+        <div class="context-item">
+          <div class="context-icon green">✓</div>
+          <p><strong>Credibilidad</strong> — Meta Business Partner con +1,000 marcas activas en Hispanoamérica.</p>
+        </div>
+        <div class="context-item">
+          <div class="context-icon green">✓</div>
+          <p><strong>Posicionamiento claro</strong> — "El WhatsApp para equipos de atención al cliente". Mensaje directo y diferenciado.</p>
+        </div>
+        <div class="context-item">
+          <div class="context-icon green">✓</div>
+          <p><strong>Pricing definido</strong> — Tres planes claros ($99, $199, $399 USD/mes) con modelo de negocio validado.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="context-card">
+      <h3>Dónde está la oportunidad de crecimiento</h3>
+      <div class="context-grid">
+        <div class="context-item">
+          <div class="context-icon coral">!</div>
+          <p><strong>Volumen de demos y trials</strong> — Con la infraestructura correcta, cada lead que entre por pauta puede ser nutrido automáticamente hasta agendar una demo o activar un trial.</p>
+        </div>
+        <div class="context-item">
+          <div class="context-icon coral">!</div>
+          <p><strong>Contenido que eduque y convierta</strong> — Videos que muestren el dolor (caos en WhatsApp) y la solución (Wasapi), en formatos que funcionen en Meta Ads.</p>
+        </div>
+        <div class="context-item">
+          <div class="context-icon coral">!</div>
+          <p><strong>Seguimiento estructurado</strong> — Un sistema donde ningún lead se pierda: desde el clic en el anuncio hasta la activación del trial, todo trazado y medible.</p>
+        </div>
+        <div class="context-item">
+          <div class="context-icon coral">!</div>
+          <p><strong>Presencia consistente</strong> — Posts de venta que refuercen la marca en redes y complementen la pauta con alcance orgánico.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ENTREGABLES -->
+  <section class="section">
+    <span class="section-label">La solución</span>
+    <h2>Qué vamos a hacer por Wasapi</h2>
+    <p class="section-desc">Cuatro pilares integrados que trabajan juntos. No son servicios sueltos — son piezas de un mismo sistema de adquisición.</p>
+
+    <div class="deliverable">
+      <div class="deliverable-header">
+        <div class="deliverable-number">01</div>
+        <h3>Contenido audiovisual estratégico<span>4 videos profesionales al mes</span></h3>
+      </div>
+      <div class="deliverable-body">
+        <p>Videos diseñados para funcionar como piezas de pauta en Meta Ads y como contenido orgánico. No son videos genéricos — cada uno tiene un objetivo comercial claro dentro del embudo.</p>
+        <div class="deliverable-items">
+          <div class="d-item">1 video de dolor/problema — "¿Tu equipo pierde leads porque nadie responde a las 10pm?" (TOF - awareness)</div>
+          <div class="d-item">1 video de producto/solución — Demo rápida mostrando Wasapi en acción resolviendo un caso real (MOF - consideración)</div>
+          <div class="d-item">1 video de prueba social — Testimonio o caso de éxito con métricas reales de un cliente de Wasapi (MOF - confianza)</div>
+          <div class="d-item">1 video de oferta/CTA directo — Invitación clara a probar Wasapi gratis con urgencia o beneficio (BOF - conversión)</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="deliverable">
+      <div class="deliverable-header">
+        <div class="deliverable-number">02</div>
+        <h3>Posts de venta para redes sociales<span>4 posts al mes</span></h3>
+      </div>
+      <div class="deliverable-body">
+        <p>Piezas gráficas + copy optimizado para Instagram y Facebook que refuercen el mensaje de marca y generen interacción orgánica. Cada post complementa los videos y mantiene la presencia activa entre campañas.</p>
+        <div class="deliverable-items">
+          <div class="d-item">1 post educativo — Tips sobre atención en WhatsApp que posiciona a Wasapi como experto</div>
+          <div class="d-item">1 post de features — Destacando una funcionalidad específica (ej: chatbots IA, embudos, multi-agente)</div>
+          <div class="d-item">1 post de prueba social — Resultado o testimonio visual de un cliente</div>
+          <div class="d-item">1 post de conversión — CTA directo a demo o trial con diseño impactante</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="deliverable">
+      <div class="deliverable-header">
+        <div class="deliverable-number">03</div>
+        <h3>Implementación y gestión de Meta Ads<span>Campañas en Facebook e Instagram</span></h3>
+      </div>
+      <div class="deliverable-body">
+        <p>Estrategia de pauta diseñada específicamente para SaaS B2B en Hispanoamérica. No vamos a poner un botón de "Más información" y esperar — vamos a construir un sistema de campañas por etapa del embudo.</p>
+        <div class="deliverable-items">
+          <div class="d-item">Campañas TOF (alcance) — Videos de dolor/problema para generar awareness en el ICP de Wasapi</div>
+          <div class="d-item">Campañas MOF (retargeting) — Videos de producto y testimonios a quienes ya interactuaron</div>
+          <div class="d-item">Campañas BOF (conversión) — Formularios de lead o tráfico directo a trial/demo para audiencias calientes</div>
+          <div class="d-item">Optimización semanal — Ajuste de audiencias, creativos y presupuesto basado en datos reales</div>
+          <div class="d-item">Reportes quincenales — Dashboard claro con CPL, CPA, leads generados y pipeline actualizado</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="deliverable">
+      <div class="deliverable-header">
+        <div class="deliverable-number">04</div>
+        <h3>Infraestructura GHL de captación y cierre<span>GoHighLevel — Implementación completa</span></h3>
+      </div>
+      <div class="deliverable-body">
+        <p>El cerebro detrás de todo. Cada lead que entre por pauta aterriza en un sistema que lo nurturea, lo clasifica y lo empuja al cierre — automáticamente. Ustedes solo ven el dashboard y cierran las oportunidades calientes.</p>
+        <div class="deliverable-items">
+          <div class="d-item">CRM con pipeline personalizado — Etapas: Lead nuevo → Contactado → Demo agendada → Trial activado → En negociación → Cliente</div>
+          <div class="d-item">Automatización de bienvenida — Mensaje inmediato por email + WhatsApp al lead que deja sus datos</div>
+          <div class="d-item">Secuencia de nurturing — Seguimiento automatizado a 1h, 24h, 48h y 7 días con contenido de valor</div>
+          <div class="d-item">Formulario de captación integrado — Conectado directamente a Meta Ads con campos pre-calificadores</div>
+          <div class="d-item">Dashboard de métricas — Vista en tiempo real de leads por fuente, etapa del pipeline y tasa de conversión</div>
+          <div class="d-item">App móvil para el equipo comercial — Seguimiento y respuesta a leads desde el celular con LeadConnector</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FLUJO INTEGRADO -->
+  <section class="section flow-section">
+    <span class="section-label">Cómo funciona todo junto</span>
+    <h2>El recorrido del lead</h2>
+    <p class="section-desc">Desde que ve el anuncio hasta que se convierte en cliente de Wasapi. Cada paso está diseñado y automatizado.</p>
+
+    <div class="flow-steps">
+      <div class="flow-step">
+        <div class="flow-dot">1</div>
+        <div class="flow-content">
+          <h4>El prospecto ve un video en Instagram/Facebook</h4>
+          <p>Un gerente de operaciones o líder comercial en LatAm ve un video que muestra el caos de atender 200+ chats de WhatsApp sin sistema. Se identifica.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">2</div>
+        <div class="flow-content">
+          <h4>Hace clic y llena el formulario</h4>
+          <p>El formulario pre-califica: ¿Cuántos agentes tienen? ¿Cuántos mensajes reciben al día? ¿Usan la API oficial? Solo llegan leads que realmente encajan.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">3</div>
+        <div class="flow-content">
+          <h4>Recibe mensaje automático inmediato</h4>
+          <p>En menos de 60 segundos recibe un email + mensaje con enlace a demo o trial de Wasapi. GHL lo registra en el pipeline como "Lead nuevo".</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">4</div>
+        <div class="flow-content">
+          <h4>Secuencia de nurturing se activa</h4>
+          <p>Si no agenda demo, recibe seguimiento a las 24h, 48h y 7 días con casos de éxito, comparativas y beneficios específicos para su industria.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-dot">5</div>
+        <div class="flow-content">
+          <h4>El equipo comercial cierra</h4>
+          <p>El lead llega caliente al equipo de Wasapi. En el dashboard ven exactamente quién es, qué le interesa y en qué etapa está. Solo falta la llamada de cierre.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- INVERSIÓN -->
+  <section class="section">
+    <span class="section-label">Inversión</span>
+    <h2>Qué incluye y cuánto cuesta</h2>
+    <p class="section-desc">Precio claro, entregables claros. Sin letra pequeña.</p>
+
+    <div class="investment-card">
+      <div class="inv-grid">
+        <div class="inv-item">
+          <div class="inv-label">Fee mensual de agencia</div>
+          <div class="inv-value">$X.XXX USD</div>
+          <div class="inv-desc">Incluye los 4 entregables: contenido audiovisual, posts, gestión de pauta e infraestructura GHL.</div>
+        </div>
+        <div class="inv-item">
+          <div class="inv-label">Setup inicial (único pago)</div>
+          <div class="inv-value">$X.XXX USD</div>
+          <div class="inv-desc">Configuración completa de GHL: pipeline, workflows, formularios, automatizaciones y conexión con Meta Ads.</div>
+        </div>
+        <div class="inv-item">
+          <div class="inv-label">Inversión en pauta</div>
+          <div class="inv-value">A definir</div>
+          <div class="inv-desc">Presupuesto de Meta Ads. Se define según objetivos de CPL y volumen de leads deseado. Recomendamos un mínimo de $500-1,000 USD/mes para empezar.</div>
+        </div>
+        <div class="inv-item">
+          <div class="inv-label">Plataforma GHL</div>
+          <div class="inv-value">Incluido</div>
+          <div class="inv-desc">La subcuenta de GoHighLevel para Wasapi está cubierta dentro de nuestro plan de agencia. Sin costo adicional.</div>
+        </div>
+      </div>
+      <div class="inv-note">
+        <strong>Nota:</strong> Los precios se definen en la reunión de presentación según el alcance final acordado. Esta propuesta muestra la estructura y entregables — los montos se personalizan para cada cliente.
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- POR QUÉ NOSOTROS -->
+  <section class="section">
+    <span class="section-label">Por qué nosotros</span>
+    <h2>Lo que nos diferencia</h2>
+
+    <div class="why-grid">
+      <div class="why-card">
+        <div class="why-num">100%</div>
+        <p>Integrado. No vendemos servicios sueltos — cada pieza alimenta a la otra dentro de un solo sistema.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-num">24h</div>
+        <p>Tiempo máximo de respuesta a un lead con nuestras automatizaciones. La mayoría se contactan en menos de 60 seg.</p>
+      </div>
+      <div class="why-card">
+        <div class="why-num">360°</div>
+        <p>Visibilidad total. Dashboard en tiempo real donde Wasapi ve cada lead, cada etapa y cada métrica de la operación.</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FOOTER -->
+  <section class="footer">
+    <p class="cta-line">¿Listos para convertir la pauta<br>en clientes reales para Wasapi?</p>
+    <p>Agendemos una reunión para afinar los detalles y arrancar.</p>
+    <p style="margin-top:24px;color:var(--text3);font-size:.75rem">[Tu Agencia] — Propuesta confidencial — Abril 2026</p>
+  </section>
+
+</div>
+
+</body>
+</html>
