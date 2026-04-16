@@ -1,659 +1,1313 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Propuesta Comercial — Wasapi</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-<style>
-/* =============================================
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Propuesta Comercial — Wasapi</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=Playfair+Display:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* =============================================
    RESET & TOKENS
 ============================================= */
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#0a0a0a;
-  --surface:#141414;
-  --surface2:#1c1c1c;
-  --border:#2a2a2a;
-  --text:#f0ede6;
-  --text2:#a8a49c;
-  --text3:#6b6860;
-  --accent:#25D366;
-  --accent2:#128C7E;
-  --accent-soft:rgba(37,211,102,.08);
-  --coral:#FF6B4A;
-  --font-body:'DM Sans',sans-serif;
-  --font-display:'Playfair Display',serif;
-  --r-sm:8px;--r-md:12px;--r-lg:16px;--r-xl:20px;
-}
-html{font-size:16px;scroll-behavior:smooth}
-body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:var(--font-body);
-  line-height:1.6;
-  -webkit-font-smoothing:antialiased;
-  padding-left:env(safe-area-inset-left);
-  padding-right:env(safe-area-inset-right);
-}
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --bg: #0a0a0a;
+        --surface: #141414;
+        --surface2: #1c1c1c;
+        --border: #2a2a2a;
+        --text: #f0ede6;
+        --text2: #a8a49c;
+        --text3: #6b6860;
+        --accent: #25d366;
+        --accent2: #128c7e;
+        --accent-soft: rgba(37, 211, 102, 0.08);
+        --coral: #ff6b4a;
+        --font-body: "DM Sans", sans-serif;
+        --font-display: "Playfair Display", serif;
+        --r-sm: 8px;
+        --r-md: 12px;
+        --r-lg: 16px;
+        --r-xl: 20px;
+      }
+      html {
+        font-size: 16px;
+        scroll-behavior: smooth;
+      }
+      body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: var(--font-body);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
+      }
 
-/* =============================================
+      /* =============================================
    PROGRESS BAR
 ============================================= */
-.progress-bar{
-  position:fixed;top:0;left:0;
-  height:2px;
-  background:linear-gradient(to right,var(--accent),var(--accent2));
-  width:0%;z-index:100;
-  transition:width .1s linear;
-}
+      .progress-bar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 2px;
+        background: linear-gradient(to right, var(--accent), var(--accent2));
+        width: 0%;
+        z-index: 100;
+        transition: width 0.1s linear;
+      }
 
-/* =============================================
+      /* =============================================
    CONTAINER — full-width con padding lateral
 ============================================= */
-.container{
-  width:100%;
-  margin:0 auto;
-  padding:0 20px; /* mobile */
-}
+      .container {
+        width: 100%;
+        margin: 0 auto;
+        padding: 0 20px; /* mobile */
+      }
 
-/* =============================================
+      /* =============================================
    HERO — mobile-first
 ============================================= */
-.hero{
-  padding:52px 0 40px;
-  position:relative;overflow:hidden;
-}
-.hero::before{
-  content:'';position:absolute;
-  top:-80px;right:-60px;
-  width:300px;height:300px;
-  background:radial-gradient(circle,rgba(37,211,102,.08) 0%,transparent 70%);
-  pointer-events:none;
-}
-.badge{
-  display:inline-flex;align-items:center;gap:7px;
-  background:var(--accent-soft);
-  border:1px solid rgba(37,211,102,.2);
-  border-radius:100px;padding:7px 16px;
-  font-size:1.05rem;color:var(--accent);
-  letter-spacing:.06em;text-transform:uppercase;font-weight:600;
-  margin-bottom:22px;
-}
-.badge .dot{
-  width:7px;height:7px;background:var(--accent);
-  border-radius:50%;animation:pulse 2s infinite;
-}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+      .hero {
+        padding: 52px 0 40px;
+        position: relative;
+        overflow: hidden;
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: -80px;
+        right: -60px;
+        width: 300px;
+        height: 300px;
+        background: radial-gradient(
+          circle,
+          rgba(37, 211, 102, 0.08) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        background: var(--accent-soft);
+        border: 1px solid rgba(37, 211, 102, 0.2);
+        border-radius: 100px;
+        padding: 7px 16px;
+        font-size: 1.05rem;
+        color: var(--accent);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        font-weight: 600;
+        margin-bottom: 22px;
+      }
+      .badge .dot {
+        width: 7px;
+        height: 7px;
+        background: var(--accent);
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.35;
+        }
+      }
 
-/* FONT SIZES — mobile base (legibles desde el arranque) */
-.hero h1{
-  font-family:var(--font-display);
-  font-size:2.65rem;
-  font-weight:600;line-height:1.12;
-  margin-bottom:16px;color:var(--text);
-}
-.hero h1 span{color:var(--accent)}
-.hero .subtitle{
-  font-size:1.3rem;color:var(--text2);
-  line-height:1.75;max-width:700px;
-}
-.meta-row{
-  display:flex;flex-direction:column;gap:16px;
-  margin-top:28px;padding-top:24px;
-  border-top:1px solid var(--border);
-}
-.meta-item{display:flex;flex-direction:column;gap:3px}
-.meta-label{
-  font-size:1rem;text-transform:uppercase;
-  letter-spacing:.09em;color:var(--text3);font-weight:600;
-}
-.meta-value{font-size:1.2rem;color:var(--text2)}
+      /* Logo + badge row */
+      .hero-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 28px;
+      }
+      .logo-conectux {
+        height: 32px; /* ajusta este valor a tu logo */
+        width: auto;
+        object-fit: contain;
+        display: block;
+      }
 
-/* =============================================
+      /* FONT SIZES — mobile base (legibles desde el arranque) */
+      .hero h1 {
+        font-family: var(--font-display);
+        font-size: 2.65rem;
+        font-weight: 600;
+        line-height: 1.12;
+        margin-bottom: 16px;
+        color: var(--text);
+      }
+      .hero h1 span {
+        color: var(--accent);
+      }
+      .hero .subtitle {
+        font-size: 1.3rem;
+        color: var(--text2);
+        line-height: 1.75;
+        max-width: 700px;
+      }
+      .meta-row {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        margin-top: 28px;
+        padding-top: 24px;
+        border-top: 1px solid var(--border);
+      }
+      .meta-item {
+        display: flex;
+        flex-direction: column;
+        gap: 3px;
+      }
+      .meta-label {
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        color: var(--text3);
+        font-weight: 600;
+      }
+      .meta-value {
+        font-size: 1.2rem;
+        color: var(--text2);
+      }
+
+      /* =============================================
    DIVIDER
 ============================================= */
-.divider{height:1px;background:var(--border);margin:44px 0}
+      .divider {
+        height: 1px;
+        background: var(--border);
+        margin: 44px 0;
+      }
 
-/* =============================================
+      /* =============================================
    SECTION — mobile-first
 ============================================= */
-.section{padding:44px 0}
-.section-label{
-  font-size:1rem;text-transform:uppercase;
-  letter-spacing:.12em;color:var(--accent);font-weight:600;
-  margin-bottom:10px;display:block;
-}
-.section h2{
-  font-family:var(--font-display);
-  font-size:2rem;font-weight:500;
-  margin-bottom:10px;line-height:1.22;
-}
-.section .section-desc{
-  color:var(--text2);font-size:1.25rem;
-  margin-bottom:32px;line-height:1.7;
-}
+      .section {
+        padding: 44px 0;
+      }
+      .section-label {
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        color: var(--accent);
+        font-weight: 600;
+        margin-bottom: 10px;
+        display: block;
+      }
+      .section h2 {
+        font-family: var(--font-display);
+        font-size: 2rem;
+        font-weight: 500;
+        margin-bottom: 10px;
+        line-height: 1.22;
+      }
+      .section .section-desc {
+        color: var(--text2);
+        font-size: 1.25rem;
+        margin-bottom: 32px;
+        line-height: 1.7;
+      }
 
-/* =============================================
+      /* =============================================
    CONTEXT CARD — mobile: 1 col
 ============================================= */
-.context-card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--r-lg);padding:24px;
-  margin-bottom:20px;
-}
-.context-card h3{font-size:1.25rem;font-weight:600;margin-bottom:16px;color:var(--text)}
-.context-grid{display:grid;grid-template-columns:1fr;gap:16px}
-.context-item{display:flex;gap:12px;align-items:flex-start}
-.context-icon{
-  width:32px;height:32px;border-radius:var(--r-sm);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.1rem;flex-shrink:0;font-weight:700;
-}
-.context-icon.green{background:rgba(37,211,102,.1);color:var(--accent)}
-.context-icon.coral{background:rgba(255,107,74,.1);color:var(--coral)}
-.context-item p{font-size:1.17rem;color:var(--text2);line-height:1.6}
-.context-item strong{color:var(--text);font-weight:500}
+      .context-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 24px;
+        margin-bottom: 20px;
+      }
+      .context-card h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 16px;
+        color: var(--text);
+      }
+      .context-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+      .context-item {
+        display: flex;
+        gap: 12px;
+        align-items: flex-start;
+      }
+      .context-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: var(--r-sm);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.1rem;
+        flex-shrink: 0;
+        font-weight: 700;
+      }
+      .context-icon.green {
+        background: rgba(37, 211, 102, 0.1);
+        color: var(--accent);
+      }
+      .context-icon.coral {
+        background: rgba(255, 107, 74, 0.1);
+        color: var(--coral);
+      }
+      .context-item p {
+        font-size: 1.17rem;
+        color: var(--text2);
+        line-height: 1.6;
+      }
+      .context-item strong {
+        color: var(--text);
+        font-weight: 500;
+      }
 
-/* =============================================
+      /* =============================================
    DELIVERABLES — mobile
 ============================================= */
-.deliverable{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--r-lg);padding:24px;
-  margin-bottom:14px;
-  position:relative;overflow:hidden;
-  transition:border-color .3s,transform .15s;
-}
-.deliverable:active{transform:scale(.99)}
-.deliverable:hover{border-color:rgba(37,211,102,.28)}
-.deliverable-header{display:flex;align-items:center;gap:16px;margin-bottom:16px}
-.deliverable-number{
-  width:42px;height:42px;border-radius:10px;
-  background:var(--accent-soft);border:1px solid rgba(37,211,102,.2);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-display);font-size:1.35rem;font-weight:600;
-  color:var(--accent);flex-shrink:0;
-}
-.deliverable h3{font-size:1.33rem;font-weight:600;line-height:1.3}
-.deliverable h3 span{
-  display:block;font-size:1.07rem;font-weight:400;
-  color:var(--text2);margin-top:3px;
-}
-.deliverable-body{padding-left:0} /* no indent en mobile */
-.deliverable-body p{font-size:1.17rem;color:var(--text2);line-height:1.72;margin-bottom:14px}
-.deliverable-items{display:flex;flex-direction:column;gap:10px;margin-top:14px}
-.d-item{
-  display:flex;align-items:flex-start;gap:10px;
-  font-size:1.15rem;color:var(--text2);line-height:1.65;
-}
-.d-item::before{content:'→';color:var(--accent);font-weight:600;flex-shrink:0;margin-top:1px}
+      .deliverable {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-lg);
+        padding: 24px;
+        margin-bottom: 14px;
+        position: relative;
+        overflow: hidden;
+        transition:
+          border-color 0.3s,
+          transform 0.15s;
+      }
+      .deliverable:active {
+        transform: scale(0.99);
+      }
+      .deliverable:hover {
+        border-color: rgba(37, 211, 102, 0.28);
+      }
+      .deliverable-header {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 16px;
+      }
+      .deliverable-number {
+        width: 42px;
+        height: 42px;
+        border-radius: 10px;
+        background: var(--accent-soft);
+        border: 1px solid rgba(37, 211, 102, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--font-display);
+        font-size: 1.35rem;
+        font-weight: 600;
+        color: var(--accent);
+        flex-shrink: 0;
+      }
+      .deliverable h3 {
+        font-size: 1.33rem;
+        font-weight: 600;
+        line-height: 1.3;
+      }
+      .deliverable h3 span {
+        display: block;
+        font-size: 1.07rem;
+        font-weight: 400;
+        color: var(--text2);
+        margin-top: 3px;
+      }
+      .deliverable-body {
+        padding-left: 0;
+      } /* no indent en mobile */
+      .deliverable-body p {
+        font-size: 1.17rem;
+        color: var(--text2);
+        line-height: 1.72;
+        margin-bottom: 14px;
+      }
+      .deliverable-items {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 14px;
+      }
+      .d-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 10px;
+        font-size: 1.15rem;
+        color: var(--text2);
+        line-height: 1.65;
+      }
+      .d-item::before {
+        content: "→";
+        color: var(--accent);
+        font-weight: 600;
+        flex-shrink: 0;
+        margin-top: 1px;
+      }
 
-/* =============================================
+      /* =============================================
    FLOW — mobile
 ============================================= */
-.flow-section{padding:40px 0}
-.flow-steps{display:flex;flex-direction:column;position:relative}
-.flow-steps::before{
-  content:'';position:absolute;
-  left:19px;top:22px;bottom:22px;width:1px;
-  background:linear-gradient(to bottom,var(--accent),var(--accent2),var(--border));
-}
-.flow-step{display:flex;gap:20px;align-items:flex-start;padding:16px 0}
-.flow-dot{
-  width:40px;height:40px;min-width:40px;border-radius:50%;
-  border:2px solid var(--accent);background:var(--bg);
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.03rem;font-weight:700;color:var(--accent);
-  position:relative;z-index:1;
-}
-.flow-content h4{font-size:1.25rem;font-weight:600;margin-bottom:5px;line-height:1.35}
-.flow-content p{font-size:1.13rem;color:var(--text2);line-height:1.68}
+      .flow-section {
+        padding: 40px 0;
+      }
+      .flow-steps {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+      }
+      .flow-steps::before {
+        content: "";
+        position: absolute;
+        left: 19px;
+        top: 22px;
+        bottom: 22px;
+        width: 1px;
+        background: linear-gradient(
+          to bottom,
+          var(--accent),
+          var(--accent2),
+          var(--border)
+        );
+      }
+      .flow-step {
+        display: flex;
+        gap: 20px;
+        align-items: flex-start;
+        padding: 16px 0;
+      }
+      .flow-dot {
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        border-radius: 50%;
+        border: 2px solid var(--accent);
+        background: var(--bg);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.03rem;
+        font-weight: 700;
+        color: var(--accent);
+        position: relative;
+        z-index: 1;
+      }
+      .flow-content h4 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 5px;
+        line-height: 1.35;
+      }
+      .flow-content p {
+        font-size: 1.13rem;
+        color: var(--text2);
+        line-height: 1.68;
+      }
 
-/* =============================================
+      /* =============================================
    INVESTMENT — mobile
 ============================================= */
-.investment-card{
-  background:linear-gradient(135deg,var(--surface) 0%,var(--surface2) 100%);
-  border:1px solid var(--border);border-radius:var(--r-xl);
-  padding:28px;position:relative;overflow:hidden;
-}
-.investment-card::after{
-  content:'';position:absolute;top:0;right:0;
-  width:200px;height:200px;
-  background:radial-gradient(circle,rgba(37,211,102,.05) 0%,transparent 70%);
-  pointer-events:none;
-}
-.inv-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:22px}
-.inv-item{
-  background:rgba(255,255,255,.025);border:1px solid var(--border);
-  border-radius:var(--r-md);padding:20px;
-}
-.inv-label{font-size:1rem;text-transform:uppercase;letter-spacing:.08em;color:var(--text3);font-weight:600;margin-bottom:5px}
-.inv-value{font-family:var(--font-display);font-size:1.95rem;font-weight:600;color:var(--text)}
-.inv-desc{font-size:1.09rem;color:var(--text2);margin-top:5px;line-height:1.6}
-.inv-note{
-  margin-top:22px;padding:16px 20px;
-  background:var(--accent-soft);border:1px solid rgba(37,211,102,.14);
-  border-radius:10px;font-size:1.13rem;color:var(--text2);line-height:1.65;
-}
-.inv-note strong{color:var(--accent)}
+      .investment-card {
+        background: linear-gradient(
+          135deg,
+          var(--surface) 0%,
+          var(--surface2) 100%
+        );
+        border: 1px solid var(--border);
+        border-radius: var(--r-xl);
+        padding: 28px;
+        position: relative;
+        overflow: hidden;
+      }
+      .investment-card::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 200px;
+        height: 200px;
+        background: radial-gradient(
+          circle,
+          rgba(37, 211, 102, 0.05) 0%,
+          transparent 70%
+        );
+        pointer-events: none;
+      }
+      .inv-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-top: 22px;
+      }
+      .inv-item {
+        background: rgba(255, 255, 255, 0.025);
+        border: 1px solid var(--border);
+        border-radius: var(--r-md);
+        padding: 20px;
+      }
+      .inv-label {
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text3);
+        font-weight: 600;
+        margin-bottom: 5px;
+      }
+      .inv-value {
+        font-family: var(--font-display);
+        font-size: 1.95rem;
+        font-weight: 600;
+        color: var(--text);
+      }
+      .inv-desc {
+        font-size: 1.09rem;
+        color: var(--text2);
+        margin-top: 5px;
+        line-height: 1.6;
+      }
+      .inv-note {
+        margin-top: 22px;
+        padding: 16px 20px;
+        background: var(--accent-soft);
+        border: 1px solid rgba(37, 211, 102, 0.14);
+        border-radius: 10px;
+        font-size: 1.13rem;
+        color: var(--text2);
+        line-height: 1.65;
+      }
+      .inv-note strong {
+        color: var(--accent);
+      }
 
-/* =============================================
+      /* =============================================
    WHY — mobile: 1 col
 ============================================= */
-.why-grid{display:grid;grid-template-columns:1fr;gap:14px;margin-top:22px}
-.why-card{
-  background:var(--surface);border:1px solid var(--border);
-  border-radius:var(--r-md);padding:28px;text-align:center;
-}
-.why-num{font-family:var(--font-display);font-size:2.45rem;font-weight:700;color:var(--accent);margin-bottom:6px;line-height:1}
-.why-card p{font-size:1.15rem;color:var(--text2);line-height:1.6}
+      .why-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 14px;
+        margin-top: 22px;
+      }
+      .why-card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--r-md);
+        padding: 28px;
+        text-align: center;
+      }
+      .why-num {
+        font-family: var(--font-display);
+        font-size: 2.45rem;
+        font-weight: 700;
+        color: var(--accent);
+        margin-bottom: 6px;
+        line-height: 1;
+      }
+      .why-card p {
+        font-size: 1.15rem;
+        color: var(--text2);
+        line-height: 1.6;
+      }
 
-/* =============================================
+      /* =============================================
    FOOTER
 ============================================= */
-.footer{padding:48px 0 64px;text-align:center}
-.footer p{font-size:1.13rem;color:var(--text3)}
-.cta-line{
-  font-family:var(--font-display);
-  font-size:1.75rem;color:var(--text);
-  margin-bottom:10px;line-height:1.3;
-}
-.cta-buttons{
-  display:flex;flex-direction:column;gap:12px;
-  margin:24px 0 32px;align-items:center;
-}
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:8px;
-  padding:15px 32px;border-radius:100px;
-  font-size:1.2rem;font-weight:600;font-family:var(--font-body);
-  text-decoration:none;cursor:pointer;border:none;
-  transition:opacity .2s,transform .15s;
-  min-height:52px;width:100%;max-width:280px;
-}
-.btn:active{transform:scale(.97)}
-.btn-primary{background:var(--accent);color:#0a0a0a}
-.btn-primary:hover{opacity:.88}
-.btn-secondary{background:transparent;border:1px solid var(--border);color:var(--text2)}
-.btn-secondary:hover{border-color:rgba(37,211,102,.35);color:var(--text)}
+      .footer {
+        padding: 48px 0 64px;
+        text-align: center;
+      }
+      .footer p {
+        font-size: 1.13rem;
+        color: var(--text3);
+      }
+      .cta-line {
+        font-family: var(--font-display);
+        font-size: 1.75rem;
+        color: var(--text);
+        margin-bottom: 10px;
+        line-height: 1.3;
+      }
+      .cta-buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        margin: 24px 0 32px;
+        align-items: center;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 15px 32px;
+        border-radius: 100px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        font-family: var(--font-body);
+        text-decoration: none;
+        cursor: pointer;
+        border: none;
+        transition:
+          opacity 0.2s,
+          transform 0.15s;
+        min-height: 52px;
+        width: 100%;
+        max-width: 280px;
+      }
+      .btn:active {
+        transform: scale(0.97);
+      }
+      .btn-primary {
+        background: var(--accent);
+        color: #0a0a0a;
+      }
+      .btn-primary:hover {
+        opacity: 0.88;
+      }
+      .btn-secondary {
+        background: transparent;
+        border: 1px solid var(--border);
+        color: var(--text2);
+      }
+      .btn-secondary:hover {
+        border-color: rgba(37, 211, 102, 0.35);
+        color: var(--text);
+      }
 
-/* =============================================
+      /* =============================================
    480px — why en 3 cols, botones en fila
 ============================================= */
-@media(min-width:480px){
-  .why-grid{grid-template-columns:repeat(3,1fr)}
-  .cta-buttons{flex-direction:row;justify-content:center}
-  .btn{width:auto}
-}
+      @media (min-width: 480px) {
+        .why-grid {
+          grid-template-columns: repeat(3, 1fr);
+        }
+        .cta-buttons {
+          flex-direction: row;
+          justify-content: center;
+        }
+        .btn {
+          width: auto;
+        }
+      }
 
-/* =============================================
+      /* =============================================
    640px — 2-col grids, más espaciado
 ============================================= */
-@media(min-width:640px){
-  .container{padding:0 32px}
-  .hero{padding:68px 0 52px}
-  .hero h1{font-size:3.25rem}
-  .meta-row{flex-direction:row;gap:40px}
-  .section{padding:56px 0}
-  .section h2{font-size:2.35rem}
-  .context-grid{grid-template-columns:1fr 1fr}
-  .context-card{padding:32px}
-  .deliverable{padding:32px}
-  .deliverable-body{padding-left:58px}
-  .inv-grid{grid-template-columns:1fr 1fr}
-  .investment-card{padding:36px}
-  .cta-line{font-size:2.05rem}
-}
+      @media (min-width: 640px) {
+        .container {
+          padding: 0 32px;
+        }
+        .hero {
+          padding: 68px 0 52px;
+        }
+        .logo-conectux {
+          height: 36px;
+        }
+        .hero h1 {
+          font-size: 3.25rem;
+        }
+        .meta-row {
+          flex-direction: row;
+          gap: 40px;
+        }
+        .section {
+          padding: 56px 0;
+        }
+        .section h2 {
+          font-size: 2.35rem;
+        }
+        .context-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .context-card {
+          padding: 32px;
+        }
+        .deliverable {
+          padding: 32px;
+        }
+        .deliverable-body {
+          padding-left: 58px;
+        }
+        .inv-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .investment-card {
+          padding: 36px;
+        }
+        .cta-line {
+          font-size: 2.05rem;
+        }
+      }
 
-/* =============================================
+      /* =============================================
    1024px — desktop real, ancho grande
 ============================================= */
-@media(min-width:1024px){
-  .container{padding:0 60px}
-  .hero{padding:88px 0 64px}
-  .hero::before{width:500px;height:500px;top:-150px;right:-100px}
-  .hero h1{font-size:4.05rem}
-  .hero .subtitle{font-size:1.4rem}
-  .badge{font-size:1.07rem;padding:8px 18px}
-  .section{padding:72px 0}
-  .section-label{font-size:1.05rem}
-  .section h2{font-size:2.85rem}
-  .section .section-desc{font-size:1.35rem}
-  .context-card{padding:36px}
-  .context-card h3{font-size:1.35rem}
-  .context-item p{font-size:1.25rem}
-  .deliverable{padding:40px}
-  .deliverable h3{font-size:1.45rem}
-  .deliverable h3 span{font-size:1.15rem}
-  .deliverable-body p{font-size:1.25rem}
-  .d-item{font-size:1.2rem}
-  .deliverable-body{padding-left:64px}
-  .flow-content h4{font-size:1.35rem}
-  .flow-content p{font-size:1.2rem}
-  .investment-card{padding:48px}
-  .inv-value{font-size:2.25rem}
-  .inv-desc{font-size:1.15rem}
-  .inv-note{font-size:1.17rem}
-  .why-num{font-size:3.05rem}
-  .why-card{padding:36px}
-  .why-card p{font-size:1.2rem}
-  .cta-line{font-size:2.35rem}
-  .divider{margin:56px 0}
-}
+      @media (min-width: 1024px) {
+        .container {
+          padding: 0 60px;
+        }
+        .hero {
+          padding: 88px 0 64px;
+        }
+        .hero::before {
+          width: 500px;
+          height: 500px;
+          top: -150px;
+          right: -100px;
+        }
+        .logo-conectux {
+          height: 44px;
+        }
+        .hero h1 {
+          font-size: 4.05rem;
+        }
+        .hero .subtitle {
+          font-size: 1.4rem;
+        }
+        .badge {
+          font-size: 1.07rem;
+          padding: 8px 18px;
+        }
+        .section {
+          padding: 72px 0;
+        }
+        .section-label {
+          font-size: 1.05rem;
+        }
+        .section h2 {
+          font-size: 2.85rem;
+        }
+        .section .section-desc {
+          font-size: 1.35rem;
+        }
+        .context-card {
+          padding: 36px;
+        }
+        .context-card h3 {
+          font-size: 1.35rem;
+        }
+        .context-item p {
+          font-size: 1.25rem;
+        }
+        .deliverable {
+          padding: 40px;
+        }
+        .deliverable h3 {
+          font-size: 1.45rem;
+        }
+        .deliverable h3 span {
+          font-size: 1.15rem;
+        }
+        .deliverable-body p {
+          font-size: 1.25rem;
+        }
+        .d-item {
+          font-size: 1.2rem;
+        }
+        .deliverable-body {
+          padding-left: 64px;
+        }
+        .flow-content h4 {
+          font-size: 1.35rem;
+        }
+        .flow-content p {
+          font-size: 1.2rem;
+        }
+        .investment-card {
+          padding: 48px;
+        }
+        .inv-value {
+          font-size: 2.25rem;
+        }
+        .inv-desc {
+          font-size: 1.15rem;
+        }
+        .inv-note {
+          font-size: 1.17rem;
+        }
+        .why-num {
+          font-size: 3.05rem;
+        }
+        .why-card {
+          padding: 36px;
+        }
+        .why-card p {
+          font-size: 1.2rem;
+        }
+        .cta-line {
+          font-size: 2.35rem;
+        }
+        .divider {
+          margin: 56px 0;
+        }
+      }
 
-/* =============================================
+      /* =============================================
    1280px — pantallas grandes
 ============================================= */
-@media(min-width:1280px){
-  .container{padding:0 96px}
-  .hero{padding:100px 0 72px}
-  .hero h1{font-size:4.65rem}
-  .hero .subtitle{font-size:1.45rem;max-width:800px}
-  .section h2{font-size:3.25rem}
-  .section .section-desc{font-size:1.4rem}
-  .context-grid{grid-template-columns:1fr 1fr 1fr 1fr}
-  .deliverable h3{font-size:1.55rem}
-  .deliverable-body p{font-size:1.3rem}
-  .d-item{font-size:1.25rem}
-  .cta-line{font-size:2.65rem}
-  .why-num{font-size:3.45rem}
-}
+      @media (min-width: 1280px) {
+        .container {
+          padding: 0 96px;
+        }
+        .hero {
+          padding: 100px 0 72px;
+        }
+        .logo-conectux {
+          height: 52px;
+        }
+        .hero h1 {
+          font-size: 4.65rem;
+        }
+        .hero .subtitle {
+          font-size: 1.45rem;
+          max-width: 800px;
+        }
+        .section h2 {
+          font-size: 3.25rem;
+        }
+        .section .section-desc {
+          font-size: 1.4rem;
+        }
+        .context-grid {
+          grid-template-columns: 1fr 1fr 1fr 1fr;
+        }
+        .deliverable h3 {
+          font-size: 1.55rem;
+        }
+        .deliverable-body p {
+          font-size: 1.3rem;
+        }
+        .d-item {
+          font-size: 1.25rem;
+        }
+        .cta-line {
+          font-size: 2.65rem;
+        }
+        .why-num {
+          font-size: 3.45rem;
+        }
+      }
 
-/* =============================================
+      /* =============================================
    1600px — monitores muy anchos
 ============================================= */
-@media(min-width:1600px){
-  .container{padding:0 140px}
-  .hero h1{font-size:5.25rem}
-  .section h2{font-size:3.65rem}
-}
-</style>
-</head>
-<body>
+      @media (min-width: 1600px) {
+        .container {
+          padding: 0 140px;
+        }
+        .logo-conectux {
+          height: 60px;
+        }
+        .hero h1 {
+          font-size: 5.25rem;
+        }
+        .section h2 {
+          font-size: 3.65rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress-bar" id="progressBar"></div>
 
-<div class="progress-bar" id="progressBar"></div>
+    <div class="container">
+      <!-- HERO -->
+      <section class="hero">
+        <div class="hero-top">
+          <img
+            src="./logo-conectux.png"
+            alt="Logo Conectux"
+            class="logo-conectux"
+          />
+        </div>
+        <div class="badge"><span class="dot"></span> Propuesta comercial</div>
+        <h1>
+          Máquina de adquisición<br />de clientes para <span>Wasapi</span>
+        </h1>
+        <p class="subtitle">
+          Contenido estratégico + pauta paga + infraestructura de captación y
+          cierre. Todo integrado para que cada dólar invertido se convierta en
+          demos agendadas y trials activados.
+        </p>
+        <div class="meta-row">
+          <div class="meta-item">
+            <span class="meta-label">Preparado para</span>
+            <span class="meta-value">Wasapi</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Presentado por</span>
+            <span class="meta-value">Conectux</span>
+          </div>
+          <div class="meta-item">
+            <span class="meta-label">Fecha</span>
+            <span class="meta-value">Abril 2026</span>
+          </div>
+        </div>
+      </section>
 
-<div class="container">
+      <div class="divider"></div>
 
-  <!-- HERO -->
-  <section class="hero">
-    <div class="badge"><span class="dot"></span> Propuesta comercial</div>
-    <h1>Máquina de adquisición<br>de clientes para <span>Wasapi</span></h1>
-    <p class="subtitle">Contenido estratégico + pauta paga + infraestructura de captación y cierre. Todo integrado para que cada dólar invertido se convierta en demos agendadas y trials activados.</p>
-    <div class="meta-row">
-      <div class="meta-item">
-        <span class="meta-label">Preparado para</span>
-        <span class="meta-value">Equipo Wasapi</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">Presentado por</span>
-        <span class="meta-value">[Tu Agencia]</span>
-      </div>
-      <div class="meta-item">
-        <span class="meta-label">Fecha</span>
-        <span class="meta-value">Abril 2026</span>
-      </div>
+      <!-- CONTEXTO -->
+      <section class="section">
+        <span class="section-label">Contexto</span>
+        <h2>Lo que entendemos de Wasapi</h2>
+        <p class="section-desc">
+          Antes de proponer, escuchamos. Esto es lo que sabemos de su negocio y
+          dónde vemos la oportunidad.
+        </p>
+
+        <div class="context-card">
+          <h3>Lo que Wasapi ya tiene resuelto</h3>
+          <div class="context-grid">
+            <div class="context-item">
+              <div class="context-icon green">✓</div>
+              <p>
+                <strong>Producto sólido</strong> <br />Plataforma madura con
+                chat inteligente, multi-agente, chatbots IA y embudos de venta.
+              </p>
+            </div>
+            <div class="context-item">
+              <div class="context-icon green">✓</div>
+              <p>
+                <strong>Credibilidad</strong> <br />
+                Meta Business Partner con +1,000 marcas activas en
+                Hispanoamérica.
+              </p>
+            </div>
+            <div class="context-item">
+              <div class="context-icon green">✓</div>
+              <p>
+                <strong>Posicionamiento claro</strong> <br />
+                "El WhatsApp para equipos de atención al cliente". Mensaje
+                directo y diferenciado.
+              </p>
+            </div>
+            <div class="context-item">
+              <div class="context-icon green">✓</div>
+              <p>
+                <strong>Pricing definido</strong> <br />
+                Tres planes claros ($99, $199, $399 USD/mes) con modelo de
+                negocio validado.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="context-card">
+          <h3>Dónde está la oportunidad de crecimiento</h3>
+          <div class="context-grid">
+            <div class="context-item">
+              <div class="context-icon coral">!</div>
+              <p>
+                <strong>Volumen de demos y trials</strong> <br />
+                Con la infraestructura correcta, cada lead que entre por pauta
+                puede ser nutrido automáticamente hasta agendar una demo o
+                activar un trial.
+              </p>
+            </div>
+            <div class="context-item">
+              <div class="context-icon coral">!</div>
+              <p>
+                <strong>Contenido que eduque y convierta</strong> <br />
+                Videos que muestren el dolor (caos en WhatsApp) y la solución
+                (Wasapi), en formatos que funcionen en Meta Ads.
+              </p>
+            </div>
+            <div class="context-item">
+              <div class="context-icon coral">!</div>
+              <p>
+                <strong>Seguimiento estructurado</strong> <br />
+                Un sistema donde ningún lead se pierda: desde el clic en el
+                anuncio hasta la activación del trial, todo trazado y medible.
+              </p>
+            </div>
+            <div class="context-item">
+              <div class="context-icon coral">!</div>
+              <p>
+                <strong>Presencia consistente</strong> <br />
+                Posts de venta que refuercen la marca en redes y complementen la
+                pauta con alcance orgánico.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- ENTREGABLES -->
+      <section class="section">
+        <span class="section-label">La solución</span>
+        <h2>Qué vamos a hacer por Wasapi</h2>
+        <p class="section-desc">
+          Cuatro pilares integrados que trabajan juntos. No son servicios
+          sueltos, son piezas de un mismo sistema de adquisición.
+        </p>
+
+        <div class="deliverable">
+          <div class="deliverable-header">
+            <div class="deliverable-number">01</div>
+            <h3>
+              Contenido audiovisual estratégico<span
+                >4 videos profesionales al mes</span
+              >
+            </h3>
+          </div>
+          <div class="deliverable-body">
+            <p>
+              Videos diseñados para funcionar como piezas de pauta en Meta Ads y
+              como contenido orgánico. No son videos genéricos cada uno tiene un
+              objetivo comercial claro dentro del embudo.
+            </p>
+            <div class="deliverable-items">
+              <div class="d-item">
+                1 video de dolor/problema: "¿Tu equipo pierde leads porque nadie
+                responde a las 10pm?"
+              </div>
+              <div class="d-item">
+                1 video de producto/solución: Demo rápida mostrando Wasapi en
+                acción resolviendo un caso real
+              </div>
+              <div class="d-item">
+                1 video de prueba social: Testimonio o caso de éxito con
+                métricas reales de un cliente de Wasapi
+              </div>
+              <div class="d-item">
+                1 video de oferta/CTA directo: Invitación clara a probar Wasapi
+                gratis con urgencia o beneficio
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="deliverable">
+          <div class="deliverable-header">
+            <div class="deliverable-number">02</div>
+            <h3>
+              Posts de venta para redes sociales<span>4 posts al mes</span>
+            </h3>
+          </div>
+          <div class="deliverable-body">
+            <p>
+              Piezas gráficas + copy optimizado para Instagram y Facebook que
+              refuercen el mensaje de marca y generen interacción orgánica. Cada
+              post complementa los videos y mantiene la presencia activa entre
+              campañas.
+            </p>
+            <div class="deliverable-items">
+              <div class="d-item">
+                1 post educativo: Tips sobre atención en WhatsApp que posiciona
+                a Wasapi como experto
+              </div>
+              <div class="d-item">
+                1 post de features: Destacando una funcionalidad específica (ej:
+                chatbots IA, embudos, multi-agente)
+              </div>
+              <div class="d-item">
+                1 post de prueba social: Resultado o testimonio visual de un
+                cliente
+              </div>
+              <div class="d-item">
+                1 post de conversión: CTA directo a demo o trial con diseño
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="deliverable">
+          <div class="deliverable-header">
+            <div class="deliverable-number">03</div>
+            <h3>
+              Implementación y gestión de Meta Ads<span
+                >Campañas en Facebook e Instagram</span
+              >
+            </h3>
+          </div>
+          <div class="deliverable-body">
+            <p>
+              Estrategia de pauta diseñada específicamente para SaaS B2B en
+              Hispanoamérica. No vamos a poner un botón de "Más información" y
+              esperar. Vamos a construir un sistema de campañas por etapa del
+              embudo.
+            </p>
+            <div class="deliverable-items">
+              <div class="d-item">
+                Campañas TOF (alcance): Videos de dolor/problema que tiene el
+                cliente ideal de Wasapi
+              </div>
+              <div class="d-item">
+                Campañas MOF (retargeting): Videos de producto y testimonios a
+                quienes ya interactuaron
+              </div>
+              <div class="d-item">
+                Campañas BOF (conversión): Formularios de lead o tráfico directo
+                a trial/demo para audiencias calientes
+              </div>
+              <div class="d-item">
+                Optimización mensual: Ajuste de audiencias, creativos y
+                presupuesto basado en datos reales
+              </div>
+              <div class="d-item">
+                Reportes mensuales: Dashboard claro con CPL, CPA, leads
+                generados y pipeline actualizado
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="deliverable">
+          <div class="deliverable-header">
+            <div class="deliverable-number">04</div>
+            <h3>
+              Infraestructura CRM Conectux de captación y cierre<span
+                >CRM Conectux Implementación completa</span
+              >
+            </h3>
+          </div>
+          <div class="deliverable-body">
+            <p>
+              El cerebro detrás de todo. Cada lead que entre por pauta aterriza
+              en un sistema que lo nurturea, lo clasifica y lo empuja al cierre
+              — automáticamente. Ustedes solo ven el dashboard y cierran las
+              oportunidades calientes.
+            </p>
+            <div class="deliverable-items">
+              <div class="d-item">
+                CRM con pipeline personalizado — Etapas: Lead nuevo → Contactado
+                → Demo agendada → Trial activado → En negociación → Cliente
+              </div>
+              <div class="d-item">
+                Automatización de bienvenida — Mensaje inmediato por email +
+                WhatsApp al lead que deja sus datos
+              </div>
+              <div class="d-item">
+                Secuencia de nurturing — Seguimiento automatizado a 1h, 24h, 48h
+                y 7 días con contenido de valor
+              </div>
+              <div class="d-item">
+                Formulario de captación integrado — Conectado directamente a
+                Meta Ads con campos pre-calificadores
+              </div>
+              <div class="d-item">
+                Dashboard de métricas — Vista en tiempo real de leads por
+                fuente, etapa del pipeline y tasa de conversión
+              </div>
+              <div class="d-item">
+                App móvil para el equipo comercial — Seguimiento y respuesta a
+                leads desde el celular con LeadConnector
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- FLUJO INTEGRADO -->
+      <section class="section flow-section">
+        <span class="section-label">Cómo funciona todo junto</span>
+        <h2>El recorrido del lead</h2>
+        <p class="section-desc">
+          Desde que ve el anuncio hasta que se convierte en cliente de Wasapi.
+          Cada paso está diseñado y automatizado.
+        </p>
+
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-dot">1</div>
+            <div class="flow-content">
+              <h4>El prospecto ve un video en Instagram/Facebook</h4>
+              <p>
+                Un gerente de operaciones o líder comercial en LatAm ve un video
+                que muestra el caos de atender 200+ chats de WhatsApp sin
+                sistema. Se identifica.
+              </p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-dot">2</div>
+            <div class="flow-content">
+              <h4>Hace clic y llena el formulario</h4>
+              <p>
+                El formulario pre-califica: ¿Cuántos agentes tienen? ¿Cuántos
+                mensajes reciben al día? ¿Usan la API oficial? Solo llegan leads
+                que realmente encajan.
+              </p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-dot">3</div>
+            <div class="flow-content">
+              <h4>Recibe mensaje automático inmediato</h4>
+              <p>
+                En menos de 60 segundos recibe un email + mensaje con enlace a
+                demo o trial de Wasapi. GHL lo registra en el pipeline como
+                "Lead nuevo".
+              </p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-dot">4</div>
+            <div class="flow-content">
+              <h4>Secuencia de nurturing se activa</h4>
+              <p>
+                Si no agenda demo, recibe seguimiento a las 24h, 48h y 7 días
+                con casos de éxito, comparativas y beneficios específicos para
+                su industria.
+              </p>
+            </div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-dot">5</div>
+            <div class="flow-content">
+              <h4>El equipo comercial cierra</h4>
+              <p>
+                El lead llega caliente al equipo de Wasapi. En el dashboard ven
+                exactamente quién es, qué le interesa y en qué etapa está. Solo
+                falta la llamada de cierre o última landing de conversión.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- INVERSIÓN -->
+      <section class="section">
+        <span class="section-label">Inversión</span>
+        <h2>Qué incluye y cuánto cuesta</h2>
+        <p class="section-desc">
+          Precio claro, entregables claros. Sin letra pequeña.
+        </p>
+
+        <div class="investment-card">
+          <div class="inv-grid">
+            <div class="inv-item">
+              <div class="inv-label">Fee mensual de agencia</div>
+              <div class="inv-value">$1.500.000 cop</div>
+              <div>Antes: $3.000.000 cop</div>
+              <div class="inv-desc">
+                Incluye los 8 entregables: contenido audiovisual, posts, gestión
+                de pauta e infraestructura CRM Conectux.
+              </div>
+            </div>
+            <div class="inv-item">
+              <div class="inv-label">Setup inicial (único pago)</div>
+              <div class="inv-value">$500.000 cop</div>
+              <div>Antes: $1.000.000 cop</div>
+              <div class="inv-desc">
+                Configuración completa de CRM Conectux: pipeline, workflows,
+                formularios, automatizaciones y conexión con Meta Ads.
+              </div>
+            </div>
+            <div class="inv-item">
+              <div class="inv-label">Inversión en pauta</div>
+              <div class="inv-value">A definir</div>
+              <div class="inv-desc">
+                Presupuesto de Meta Ads. Se define según objetivos de CPL y
+                volumen de leads deseado. Recomendamos un mínimo de $200-5,000
+                USD/mes para empezar.
+              </div>
+            </div>
+            <div class="inv-item">
+              <div class="inv-label">Plataforma CRM Conectux</div>
+              <div class="inv-value">Incluido</div>
+              <div class="inv-desc">
+                La cueta de CRM Conectux para Wasapi está cubierta dentro de
+                nuestro plan de agencia. Sin costo adicional. (no incluye costos
+                de WhatsApp API que cobra Meta según volumen de mensajes y
+                algunos costos de emails que pueda haber según volumen de leads)
+              </div>
+            </div>
+          </div>
+          <div class="inv-note">
+            <strong>Nota:</strong> Los precios son especiales para Wasapi.
+            Incluyen todos los entregables y servicios descritos. Cualquier
+            ajuste o servicio adicional se cotizará aparte.
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- POR QUÉ NOSOTROS -->
+      <section class="section">
+        <span class="section-label">Por qué nosotros</span>
+        <h2>Lo que nos diferencia</h2>
+
+        <div class="why-grid">
+          <div class="why-card">
+            <div class="why-num">100%</div>
+            <p>
+              Integrado. No vendemos servicios sueltos — cada pieza alimenta a
+              la otra dentro de un solo sistema.
+            </p>
+          </div>
+          <div class="why-card">
+            <div class="why-num">24h</div>
+            <p>
+              Tiempo máximo de respuesta a un lead con nuestras
+              automatizaciones. La mayoría se contactan en menos de 60 seg.
+            </p>
+          </div>
+          <div class="why-card">
+            <div class="why-num">360°</div>
+            <p>
+              Visibilidad total. Dashboard en tiempo real donde Wasapi ve cada
+              lead, cada etapa y cada métrica de la operación.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <div class="divider"></div>
+
+      <!-- FOOTER -->
+      <section class="footer">
+        <p class="cta-line">
+          ¿Listos para convertir la pauta<br />en clientes reales para Wasapi?
+        </p>
+        <p>Agendemos una reunión para afinar los detalles y arrancar.</p>
+        <div class="cta-buttons">
+          <a href="https://wa.me/+573242947897" class="btn btn-primary"
+            >Agendar reunión</a
+          >
+        </div>
+        <p style="color: var(--text3); font-size: 1.03rem">
+          Conectux S.A.S — Propuesta confidencial — Abril 2026
+        </p>
+      </section>
     </div>
-  </section>
 
-  <div class="divider"></div>
-
-  <!-- CONTEXTO -->
-  <section class="section">
-    <span class="section-label">Contexto</span>
-    <h2>Lo que entendemos de Wasapi</h2>
-    <p class="section-desc">Antes de proponer, escuchamos. Esto es lo que sabemos de su negocio y dónde vemos la oportunidad.</p>
-
-    <div class="context-card">
-      <h3>Lo que Wasapi ya tiene resuelto</h3>
-      <div class="context-grid">
-        <div class="context-item">
-          <div class="context-icon green">✓</div>
-          <p><strong>Producto sólido</strong> — Plataforma madura con chat inteligente, multi-agente, chatbots IA y embudos de venta.</p>
-        </div>
-        <div class="context-item">
-          <div class="context-icon green">✓</div>
-          <p><strong>Credibilidad</strong> — Meta Business Partner con +1,000 marcas activas en Hispanoamérica.</p>
-        </div>
-        <div class="context-item">
-          <div class="context-icon green">✓</div>
-          <p><strong>Posicionamiento claro</strong> — "El WhatsApp para equipos de atención al cliente". Mensaje directo y diferenciado.</p>
-        </div>
-        <div class="context-item">
-          <div class="context-icon green">✓</div>
-          <p><strong>Pricing definido</strong> — Tres planes claros ($99, $199, $399 USD/mes) con modelo de negocio validado.</p>
-        </div>
-      </div>
-    </div>
-
-    <div class="context-card">
-      <h3>Dónde está la oportunidad de crecimiento</h3>
-      <div class="context-grid">
-        <div class="context-item">
-          <div class="context-icon coral">!</div>
-          <p><strong>Volumen de demos y trials</strong> — Con la infraestructura correcta, cada lead que entre por pauta puede ser nutrido automáticamente hasta agendar una demo o activar un trial.</p>
-        </div>
-        <div class="context-item">
-          <div class="context-icon coral">!</div>
-          <p><strong>Contenido que eduque y convierta</strong> — Videos que muestren el dolor (caos en WhatsApp) y la solución (Wasapi), en formatos que funcionen en Meta Ads.</p>
-        </div>
-        <div class="context-item">
-          <div class="context-icon coral">!</div>
-          <p><strong>Seguimiento estructurado</strong> — Un sistema donde ningún lead se pierda: desde el clic en el anuncio hasta la activación del trial, todo trazado y medible.</p>
-        </div>
-        <div class="context-item">
-          <div class="context-icon coral">!</div>
-          <p><strong>Presencia consistente</strong> — Posts de venta que refuercen la marca en redes y complementen la pauta con alcance orgánico.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ENTREGABLES -->
-  <section class="section">
-    <span class="section-label">La solución</span>
-    <h2>Qué vamos a hacer por Wasapi</h2>
-    <p class="section-desc">Cuatro pilares integrados que trabajan juntos. No son servicios sueltos — son piezas de un mismo sistema de adquisición.</p>
-
-    <div class="deliverable">
-      <div class="deliverable-header">
-        <div class="deliverable-number">01</div>
-        <h3>Contenido audiovisual estratégico<span>4 videos profesionales al mes</span></h3>
-      </div>
-      <div class="deliverable-body">
-        <p>Videos diseñados para funcionar como piezas de pauta en Meta Ads y como contenido orgánico. No son videos genéricos — cada uno tiene un objetivo comercial claro dentro del embudo.</p>
-        <div class="deliverable-items">
-          <div class="d-item">1 video de dolor/problema — "¿Tu equipo pierde leads porque nadie responde a las 10pm?" (TOF - awareness)</div>
-          <div class="d-item">1 video de producto/solución — Demo rápida mostrando Wasapi en acción resolviendo un caso real (MOF - consideración)</div>
-          <div class="d-item">1 video de prueba social — Testimonio o caso de éxito con métricas reales de un cliente de Wasapi (MOF - confianza)</div>
-          <div class="d-item">1 video de oferta/CTA directo — Invitación clara a probar Wasapi gratis con urgencia o beneficio (BOF - conversión)</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="deliverable">
-      <div class="deliverable-header">
-        <div class="deliverable-number">02</div>
-        <h3>Posts de venta para redes sociales<span>4 posts al mes</span></h3>
-      </div>
-      <div class="deliverable-body">
-        <p>Piezas gráficas + copy optimizado para Instagram y Facebook que refuercen el mensaje de marca y generen interacción orgánica. Cada post complementa los videos y mantiene la presencia activa entre campañas.</p>
-        <div class="deliverable-items">
-          <div class="d-item">1 post educativo — Tips sobre atención en WhatsApp que posiciona a Wasapi como experto</div>
-          <div class="d-item">1 post de features — Destacando una funcionalidad específica (ej: chatbots IA, embudos, multi-agente)</div>
-          <div class="d-item">1 post de prueba social — Resultado o testimonio visual de un cliente</div>
-          <div class="d-item">1 post de conversión — CTA directo a demo o trial con diseño impactante</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="deliverable">
-      <div class="deliverable-header">
-        <div class="deliverable-number">03</div>
-        <h3>Implementación y gestión de Meta Ads<span>Campañas en Facebook e Instagram</span></h3>
-      </div>
-      <div class="deliverable-body">
-        <p>Estrategia de pauta diseñada específicamente para SaaS B2B en Hispanoamérica. No vamos a poner un botón de "Más información" y esperar — vamos a construir un sistema de campañas por etapa del embudo.</p>
-        <div class="deliverable-items">
-          <div class="d-item">Campañas TOF (alcance) — Videos de dolor/problema para generar awareness en el ICP de Wasapi</div>
-          <div class="d-item">Campañas MOF (retargeting) — Videos de producto y testimonios a quienes ya interactuaron</div>
-          <div class="d-item">Campañas BOF (conversión) — Formularios de lead o tráfico directo a trial/demo para audiencias calientes</div>
-          <div class="d-item">Optimización semanal — Ajuste de audiencias, creativos y presupuesto basado en datos reales</div>
-          <div class="d-item">Reportes quincenales — Dashboard claro con CPL, CPA, leads generados y pipeline actualizado</div>
-        </div>
-      </div>
-    </div>
-
-    <div class="deliverable">
-      <div class="deliverable-header">
-        <div class="deliverable-number">04</div>
-        <h3>Infraestructura GHL de captación y cierre<span>GoHighLevel — Implementación completa</span></h3>
-      </div>
-      <div class="deliverable-body">
-        <p>El cerebro detrás de todo. Cada lead que entre por pauta aterriza en un sistema que lo nurturea, lo clasifica y lo empuja al cierre — automáticamente. Ustedes solo ven el dashboard y cierran las oportunidades calientes.</p>
-        <div class="deliverable-items">
-          <div class="d-item">CRM con pipeline personalizado — Etapas: Lead nuevo → Contactado → Demo agendada → Trial activado → En negociación → Cliente</div>
-          <div class="d-item">Automatización de bienvenida — Mensaje inmediato por email + WhatsApp al lead que deja sus datos</div>
-          <div class="d-item">Secuencia de nurturing — Seguimiento automatizado a 1h, 24h, 48h y 7 días con contenido de valor</div>
-          <div class="d-item">Formulario de captación integrado — Conectado directamente a Meta Ads con campos pre-calificadores</div>
-          <div class="d-item">Dashboard de métricas — Vista en tiempo real de leads por fuente, etapa del pipeline y tasa de conversión</div>
-          <div class="d-item">App móvil para el equipo comercial — Seguimiento y respuesta a leads desde el celular con LeadConnector</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- FLUJO INTEGRADO -->
-  <section class="section flow-section">
-    <span class="section-label">Cómo funciona todo junto</span>
-    <h2>El recorrido del lead</h2>
-    <p class="section-desc">Desde que ve el anuncio hasta que se convierte en cliente de Wasapi. Cada paso está diseñado y automatizado.</p>
-
-    <div class="flow-steps">
-      <div class="flow-step">
-        <div class="flow-dot">1</div>
-        <div class="flow-content">
-          <h4>El prospecto ve un video en Instagram/Facebook</h4>
-          <p>Un gerente de operaciones o líder comercial en LatAm ve un video que muestra el caos de atender 200+ chats de WhatsApp sin sistema. Se identifica.</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="flow-dot">2</div>
-        <div class="flow-content">
-          <h4>Hace clic y llena el formulario</h4>
-          <p>El formulario pre-califica: ¿Cuántos agentes tienen? ¿Cuántos mensajes reciben al día? ¿Usan la API oficial? Solo llegan leads que realmente encajan.</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="flow-dot">3</div>
-        <div class="flow-content">
-          <h4>Recibe mensaje automático inmediato</h4>
-          <p>En menos de 60 segundos recibe un email + mensaje con enlace a demo o trial de Wasapi. GHL lo registra en el pipeline como "Lead nuevo".</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="flow-dot">4</div>
-        <div class="flow-content">
-          <h4>Secuencia de nurturing se activa</h4>
-          <p>Si no agenda demo, recibe seguimiento a las 24h, 48h y 7 días con casos de éxito, comparativas y beneficios específicos para su industria.</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="flow-dot">5</div>
-        <div class="flow-content">
-          <h4>El equipo comercial cierra</h4>
-          <p>El lead llega caliente al equipo de Wasapi. En el dashboard ven exactamente quién es, qué le interesa y en qué etapa está. Solo falta la llamada de cierre.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- INVERSIÓN -->
-  <section class="section">
-    <span class="section-label">Inversión</span>
-    <h2>Qué incluye y cuánto cuesta</h2>
-    <p class="section-desc">Precio claro, entregables claros. Sin letra pequeña.</p>
-
-    <div class="investment-card">
-      <div class="inv-grid">
-        <div class="inv-item">
-          <div class="inv-label">Fee mensual de agencia</div>
-          <div class="inv-value">$X.XXX USD</div>
-          <div class="inv-desc">Incluye los 4 entregables: contenido audiovisual, posts, gestión de pauta e infraestructura GHL.</div>
-        </div>
-        <div class="inv-item">
-          <div class="inv-label">Setup inicial (único pago)</div>
-          <div class="inv-value">$X.XXX USD</div>
-          <div class="inv-desc">Configuración completa de GHL: pipeline, workflows, formularios, automatizaciones y conexión con Meta Ads.</div>
-        </div>
-        <div class="inv-item">
-          <div class="inv-label">Inversión en pauta</div>
-          <div class="inv-value">A definir</div>
-          <div class="inv-desc">Presupuesto de Meta Ads. Se define según objetivos de CPL y volumen de leads deseado. Recomendamos un mínimo de $500-1,000 USD/mes para empezar.</div>
-        </div>
-        <div class="inv-item">
-          <div class="inv-label">Plataforma GHL</div>
-          <div class="inv-value">Incluido</div>
-          <div class="inv-desc">La subcuenta de GoHighLevel para Wasapi está cubierta dentro de nuestro plan de agencia. Sin costo adicional.</div>
-        </div>
-      </div>
-      <div class="inv-note">
-        <strong>Nota:</strong> Los precios se definen en la reunión de presentación según el alcance final acordado. Esta propuesta muestra la estructura y entregables — los montos se personalizan para cada cliente.
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- POR QUÉ NOSOTROS -->
-  <section class="section">
-    <span class="section-label">Por qué nosotros</span>
-    <h2>Lo que nos diferencia</h2>
-
-    <div class="why-grid">
-      <div class="why-card">
-        <div class="why-num">100%</div>
-        <p>Integrado. No vendemos servicios sueltos — cada pieza alimenta a la otra dentro de un solo sistema.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-num">24h</div>
-        <p>Tiempo máximo de respuesta a un lead con nuestras automatizaciones. La mayoría se contactan en menos de 60 seg.</p>
-      </div>
-      <div class="why-card">
-        <div class="why-num">360°</div>
-        <p>Visibilidad total. Dashboard en tiempo real donde Wasapi ve cada lead, cada etapa y cada métrica de la operación.</p>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- FOOTER -->
-  <section class="footer">
-    <p class="cta-line">¿Listos para convertir la pauta<br>en clientes reales para Wasapi?</p>
-    <p>Agendemos una reunión para afinar los detalles y arrancar.</p>
-    <div class="cta-buttons">
-      <a href="#" class="btn btn-primary">Agendar reunión</a>
-      <a href="#" class="btn btn-secondary">Ver preguntas frecuentes</a>
-    </div>
-    <p style="color:var(--text3);font-size:1.03rem">[Tu Agencia] — Propuesta confidencial — Abril 2026</p>
-  </section>
-
-</div>
-
-<script>
-const bar = document.getElementById('progressBar');
-window.addEventListener('scroll', () => {
-  const total = document.documentElement.scrollHeight - window.innerHeight;
-  bar.style.width = (window.scrollY / total * 100) + '%';
-}, { passive: true });
-</script>
-</body>
+    <script>
+      const bar = document.getElementById("progressBar");
+      window.addEventListener(
+        "scroll",
+        () => {
+          const total =
+            document.documentElement.scrollHeight - window.innerHeight;
+          bar.style.width = (window.scrollY / total) * 100 + "%";
+        },
+        { passive: true },
+      );
+    </script>
+  </body>
 </html>
